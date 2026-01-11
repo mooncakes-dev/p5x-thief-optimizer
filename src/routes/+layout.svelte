@@ -35,13 +35,15 @@
 			</div>
 		</header>
 		<main>
-			{@render children()}
-			<div style="display:none">
-				{#each locales as locale}
-					<a href={localizeHref(page.url.pathname, { locale })}>
-						{locale}
-					</a>
-				{/each}
+			<div class="min-h-screen bg-background p-6 md:p-8">
+				{@render children()}
+				<div style="display:none">
+					{#each locales as locale}
+						<a href={localizeHref(page.url.pathname, { locale })}>
+							{locale}
+						</a>
+					{/each}
+				</div>
 			</div>
 		</main>
 	</Sidebar.Inset>

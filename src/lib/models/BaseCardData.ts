@@ -1,0 +1,20 @@
+export interface ICard {
+	id: string;
+	slot: 'sun' | 'moon' | 'star' | 'sky' | 'space';
+	rarity: 2 | 3 | 4 | 5;
+	set: string;
+	level: number;
+	mainStat: IMainStat;
+
+	substats: ISubStat[];
+}
+
+interface IMainStat {
+	type: string;
+	value: number;
+}
+
+interface ISubStat {
+	type: string;
+	value: number;
+}

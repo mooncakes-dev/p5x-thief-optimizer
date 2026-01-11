@@ -10,8 +10,8 @@
 	let currentPage = $state('optimizer');
 
 	const items = [
-		{ id: 'dashboard', title: 'Dashboard', url: '#', icon: HouseIcon },
-		{ id: 'optimizer', title: 'Thief Optimizer', url: '#', icon: CircleStar },
+		{ id: 'dashboard', title: 'Dashboard', url: '/dashboard', icon: HouseIcon },
+		{ id: 'optimizer', title: 'Thief Optimizer', url: '/thief-optimizer', icon: CircleStar },
 		{ id: 'team-builder', title: 'Team Builder', url: '#', icon: ToyBrick },
 		{ id: 'settings', title: 'Settings', url: '#', icon: SettingsIcon }
 	];
