@@ -16,6 +16,7 @@ enum StatLabel {
 
 export interface IThief {
 	id: string;
+	image: string;
 	name: string | '';
 	lvl: number | 0;
 	awareness: number | 0;
@@ -53,6 +54,7 @@ interface IEquippedCards {
 }
 
 export interface IWeapon {
+	image: string;
 	name: string;
 	rariry: 2 | 3 | 4 | 5;
 	lvl: number;
