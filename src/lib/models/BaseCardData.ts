@@ -6,8 +6,9 @@ export interface ICard {
 	set: string;
 	level: number;
 	mainStat: IMainStat;
-
 	substats: ISubStat[];
+	locked: boolean;
+	equippedTo: string | null;
 }
 
 interface IMainStat {
