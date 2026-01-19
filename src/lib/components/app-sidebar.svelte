@@ -4,7 +4,7 @@
 	import SettingsIcon from '@lucide/svelte/icons/settings';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import type { ComponentProps } from 'svelte';
-	import { CircleStar, Swords, ToyBrick } from '@lucide/svelte';
+	import { CircleStar, GalleryHorizontalEnd, Swords, ToyBrick } from '@lucide/svelte';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 
 	let currentPage = $state('optimizer');
@@ -12,6 +12,12 @@
 	const items = [
 		{ id: 'dashboard', title: 'Dashboard', url: '/dashboard', icon: HouseIcon },
 		{ id: 'optimizer', title: 'Thief Optimizer', url: '/thief-optimizer', icon: CircleStar },
+		{
+			id: 'cards',
+			title: 'Revelation Cards',
+			url: '/revelation-cards',
+			icon: GalleryHorizontalEnd
+		},
 		{ id: 'team-builder', title: 'Team Builder', url: '#', icon: ToyBrick },
 		{ id: 'settings', title: 'Settings', url: '#', icon: SettingsIcon }
 	];
