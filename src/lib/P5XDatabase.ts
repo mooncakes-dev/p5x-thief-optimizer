@@ -1,10 +1,10 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { ICard } from './models/BaseCardData';
 import { Thief } from './models/Thief';
+import { Card } from './models/Card';
 
 export default class P5XDatabase extends Dexie {
 	thieves!: EntityTable<Thief, 'id'>;
-	cards!: EntityTable<ICard, 'id'>;
+	cards!: EntityTable<Card, 'id'>;
 
 	constructor() {
 		super('P5XOptimizerDB');
@@ -14,5 +14,6 @@ export default class P5XDatabase extends Dexie {
 			cards: 'id, slot, rarity, set, level, equippedTo, locked'
 		});
 		this.thieves.mapToClass(Thief);
+		this.cards.mapToClass(Card);
 	}
 }

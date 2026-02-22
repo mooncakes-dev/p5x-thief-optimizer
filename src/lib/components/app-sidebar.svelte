@@ -1,13 +1,11 @@
 <script lang="ts">
 	import HouseIcon from '@lucide/svelte/icons/house';
-	import InboxIcon from '@lucide/svelte/icons/inbox';
 	import SettingsIcon from '@lucide/svelte/icons/settings';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import type { ComponentProps } from 'svelte';
 	import { CircleStar, GalleryHorizontalEnd, Swords, ToyBrick } from '@lucide/svelte';
-	import { Badge } from '$lib/components/ui/badge/index.js';
 
-	let currentPage = $state('optimizer');
+	let currentPage = $state('');
 
 	const items = [
 		{ id: 'dashboard', title: 'Dashboard', url: '/dashboard', icon: HouseIcon },
@@ -27,6 +25,10 @@
 		collapsible = 'icon',
 		...restProps
 	}: ComponentProps<typeof Sidebar.Root> = $props();
+
+	function setActiveState(id: string) {
+		currentPage = id;
+	}
 </script>
 
 <Sidebar.Root {collapsible} {...restProps}>
@@ -57,7 +59,10 @@
 				<Sidebar.Menu>
 					{#each items as item (item.title)}
 						<Sidebar.MenuItem>
-							<Sidebar.MenuButton isActive={currentPage === item.id}>
+							<Sidebar.MenuButton
+								isActive={currentPage === item.id}
+								onclick={() => setActiveState(item.id)}
+							>
 								{#snippet child({ props })}
 									<a href={item.url} {...props}>
 										<item.icon />

@@ -11,6 +11,31 @@
 
 	import { thiefStore } from '$lib/store/thieves.svelte';
 	import { Thief, type IBaseStats, type IThief, type IWeapon } from '$lib/models/Thief';
+	import type { ICard } from '$lib/models/Card';
+	import { cardStore } from '$lib/store/cards.svelte';
+
+	let stats = [
+		{ value: 'hp', label: '' },
+		{ value: '', label: '' }
+	];
+
+	let cardFormData = $state<ICard>({
+		id: '',
+		image: '',
+		slot: 'sun',
+		rarity: 5,
+		set: '',
+		level: 0,
+		mainStat: [
+			{
+				type: 'hp',
+				value: 0
+			}
+		],
+		subStats: [{ type: 'hp', value: 0 }],
+		locked: false,
+		equippedTo: ''
+	});
 
 	// TODO: This is ugly fix it pls
 	let weaponFormData = $state<IWeapon>({
@@ -46,7 +71,9 @@
 		baseStats: thiefStatsFormData,
 		skills: [],
 		equippedCards: null,
-		weapon: weaponFormData
+		weapon: weaponFormData,
+		userStats: null,
+		recommendedStats: null
 	});
 
 	let selectedThief = $state<Thief>();
@@ -54,7 +81,17 @@
 	let open = $state(false);
 
 	async function selectThief(id: string) {
-		selectedThief = await thiefStore.getById(id);
+		if (!id) return;
+
+		try {
+			selectedThief = await thiefStore.getById(id);
+		} catch (error) {
+			console.error('Failed to select a thief: ', error);
+		}
+	}
+
+	async function getEquippedRevelationCards(thief: Thief) {
+		return await selectedThief?.getEquippedCards();
 	}
 
 	// TODO: Do figure out a better way to do this
@@ -76,7 +113,9 @@
 				lvl: weaponFormData.lvl,
 				rariry: weaponFormData.rariry,
 				forgeLvl: weaponFormData.forgeLvl
-			}
+			},
+			userStats: null,
+			recommendedStats: null
 		};
 
 		await thiefStore.add(newThief);
@@ -105,6 +144,25 @@
 		open = false;
 		selectedThief = await thiefStore.getById(selectedThief.id);
 	}
+
+	async function hadleCardSubmit(event: SubmitEvent) {
+		event.preventDefault();
+
+		const newCard: ICard = {
+			id: crypto.randomUUID(),
+			image: '',
+			slot: cardFormData.slot,
+			rarity: cardFormData.rarity,
+			set: cardFormData.set,
+			level: cardFormData.level,
+			mainStat: cardFormData.mainStat,
+			subStats: cardFormData.subStats,
+			locked: cardFormData.locked,
+			equippedTo: cardFormData.equippedTo
+		};
+
+		await cardStore.add(newCard);
+	}
 </script>
 
 <div class="optimizer-container flex flex-col gap-4 md:flex-row">
@@ -131,7 +189,12 @@
 								</Item.Description>
 							</Item.Content>
 							<Item.Actions>
-								<Button variant="outline" size="sm" onclick={() => selectThief(thief.id)}>
+								<Button
+									variant="outline"
+									size="sm"
+									onclick={() => selectThief(thief.id)}
+									href="/thief-optimizer/{thief.id}"
+								>
 									Select
 								</Button>
 							</Item.Actions>
@@ -410,6 +473,160 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="flex gap-2 align-middle">
+							<h3 class="mb-2 text-lg font-semibold">Revelation Cards</h3>
+							<Dialog.Root bind:open>
+								<Dialog.Trigger>
+									<Button variant="ghost" size="icon-sm" aria-label="Submit">
+										<Pencil />
+									</Button>
+								</Dialog.Trigger>
+								<Dialog.Content>
+									<Dialog.Header>
+										<Dialog.Title>Add a revelation card</Dialog.Title>
+										<Dialog.Description></Dialog.Description>
+									</Dialog.Header>
+									<form onsubmit={hadleCardSubmit} class="flex flex-col gap-4">
+										<div class="w-full max-w-md">
+											<Field.Set>
+												<Field.Group>
+													<div class="grid grid-cols-2 gap-4">
+														<Field.Field>
+															<Field.Label for="hp">HP</Field.Label>
+															<Input
+																id="hp"
+																type="number"
+																min="0"
+																placeholder=""
+																bind:value={cardFormData.mainStat}
+															/>
+														</Field.Field>
+														<Field.Field>
+															<Field.Label for="attack">Attack</Field.Label>
+															<Input
+																id="attack"
+																type="number"
+																placeholder=""
+																min="0"
+																max=""
+																bind:value={thiefStatsFormData.attack}
+															/>
+														</Field.Field>
+														<Field.Field>
+															<Field.Label for="defence">Defence</Field.Label>
+															<Input
+																id="defence"
+																type="number"
+																placeholder="Eg. 80 for max"
+																min="0"
+																max=""
+																bind:value={thiefStatsFormData.def}
+															/>
+														</Field.Field>
+														<Field.Field>
+															<Field.Label for="speed">Speed</Field.Label>
+															<Input
+																id="speed"
+																type="number"
+																placeholder=""
+																min="0"
+																max=""
+																bind:value={thiefStatsFormData.speed}
+															/>
+														</Field.Field>
+														<Field.Field>
+															<Field.Label for="spRecovery">SP Recovery</Field.Label>
+															<Input
+																id="spRecovery"
+																type="number"
+																placeholder=""
+																min="0"
+																max=""
+																bind:value={thiefStatsFormData.spRecovery}
+															/>
+														</Field.Field>
+														<Field.Field>
+															<Field.Label for="dmgMult">Dmg Mult</Field.Label>
+															<Input
+																id="dmgMult"
+																type="number"
+																placeholder=""
+																min="0"
+																max=""
+																bind:value={thiefStatsFormData.dmgMult}
+															/>
+														</Field.Field>
+														<Field.Field>
+															<Field.Label for="critDmg">Crit Dmg</Field.Label>
+															<Input
+																id="critDmg"
+																type="number"
+																placeholder=""
+																min="0"
+																max=""
+																bind:value={thiefStatsFormData.critDmg}
+															/>
+														</Field.Field>
+														<Field.Field>
+															<Field.Label for="critRate">Crit Rate</Field.Label>
+															<Input
+																id="critRate"
+																type="number"
+																placeholder=""
+																min="0"
+																max=""
+																bind:value={thiefStatsFormData.critRate}
+															/>
+														</Field.Field>
+													</div>
+												</Field.Group>
+											</Field.Set>
+										</div>
+										<Button type="submit" class="w-full">Save</Button>
+									</form>
+								</Dialog.Content>
+							</Dialog.Root>
+						</div>
+						{#await getEquippedRevelationCards(selectedThief)}
+							<p>Loading cards...</p>
+						{:then cards}
+							{#each cards as card, i}
+								<div>
+									<p class="text-sm text-muted-foreground">
+										{card.slot}: {card.mainStat[i].type}: {card.mainStat[i].value}
+									</p>
+								</div>
+							{/each}
+							<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+								{#each cards as card}
+									<div
+										class="p5-card hover-lift animate-fade-in cursor-pointer p-4"
+										style="animation-delay: {i * 0.05}s"
+									>
+										<div
+											class="from-p5-black-light mb-3 flex aspect-square items-center justify-center rounded-lg border border-border bg-linear-to-br to-background"
+										>
+											<svg
+												class="h-12 w-12 text-muted-foreground opacity-30"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M12 4v16m8-8H4"
+												/>
+											</svg>
+										</div>
+										<div class="mb-1 text-sm font-semibold">{card.slot}</div>
+										<div class="text-xs text-muted-foreground">Empty</div>
+									</div>
+								{/each}
+							</div>
+						{/await}
 					</div>
 				</Card.Content>
 			</Card.Root>
@@ -424,10 +641,3 @@
 		{/if}
 	</div>
 </div>
-
-<style>
-	.thief-image {
-		width: 200px;
-		height: auto;
-	}
-</style>
