@@ -1,17 +1,21 @@
 <script lang="ts">
 	import HouseIcon from '@lucide/svelte/icons/house';
-	import InboxIcon from '@lucide/svelte/icons/inbox';
 	import SettingsIcon from '@lucide/svelte/icons/settings';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import type { ComponentProps } from 'svelte';
-	import { CircleStar, Swords, ToyBrick } from '@lucide/svelte';
-	import { Badge } from '$lib/components/ui/badge/index.js';
+	import { CircleStar, GalleryHorizontalEnd, Swords, ToyBrick } from '@lucide/svelte';
 
-	let currentPage = $state('optimizer');
+	let currentPage = $state('');
 
 	const items = [
-		{ id: 'dashboard', title: 'Dashboard', url: '#', icon: HouseIcon },
-		{ id: 'optimizer', title: 'Thief Optimizer', url: '#', icon: CircleStar },
+		{ id: 'dashboard', title: 'Dashboard', url: '/dashboard', icon: HouseIcon },
+		{ id: 'optimizer', title: 'Thief Optimizer', url: '/thief-optimizer', icon: CircleStar },
+		{
+			id: 'cards',
+			title: 'Revelation Cards',
+			url: '/revelation-cards',
+			icon: GalleryHorizontalEnd
+		},
 		{ id: 'team-builder', title: 'Team Builder', url: '#', icon: ToyBrick },
 		{ id: 'settings', title: 'Settings', url: '#', icon: SettingsIcon }
 	];
@@ -21,6 +25,10 @@
 		collapsible = 'icon',
 		...restProps
 	}: ComponentProps<typeof Sidebar.Root> = $props();
+
+	function setActiveState(id: string) {
+		currentPage = id;
+	}
 </script>
 
 <Sidebar.Root {collapsible} {...restProps}>
@@ -51,7 +59,10 @@
 				<Sidebar.Menu>
 					{#each items as item (item.title)}
 						<Sidebar.MenuItem>
-							<Sidebar.MenuButton isActive={currentPage === item.id}>
+							<Sidebar.MenuButton
+								isActive={currentPage === item.id}
+								onclick={() => setActiveState(item.id)}
+							>
 								{#snippet child({ props })}
 									<a href={item.url} {...props}>
 										<item.icon />
