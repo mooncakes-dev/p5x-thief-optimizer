@@ -11,7 +11,6 @@
 	import { thiefStore } from '$lib/store/thieves.svelte';
 	import AddRevelationCardForm from '$lib/components/addRevelationCardForm.svelte';
 	import type { ICard } from '$lib/models/Card';
-	import '$lib/scss/components/revelation-card.scss';
 	import ThiefCard from '$lib/components/thief-card.svelte';
 
 	let { data }: PageProps = $props();
@@ -65,7 +64,7 @@
 
 	function calculateCardScore(card: ICard) {
 		if (!card || !thief) return 0;
-		const score = thief.calculatCardScore(card, thief);
+		const score = thief.calculateCardScore(card, thief);
 		return score;
 	}
 
