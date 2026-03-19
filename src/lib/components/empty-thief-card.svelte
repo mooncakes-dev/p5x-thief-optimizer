@@ -1,52 +1,68 @@
 <script lang="ts">
+	import { Field, Control, Label, FieldErrors, Description } from 'formsnap';
+	import * as Form from '$lib/components/ui/form/index.js';
 	import type { ICard } from '$lib/models/Card';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Separator } from '$lib/components/ui/separator';
-	import { STAT_CONFIG, type StatType } from '$lib/models/types';
-	import type { Thief } from '$lib/models/Thief';
-	import type { IAttributeWeights } from '$lib/constants/character-weights';
-	import { CircleStar, Star } from '@lucide/svelte';
+	import { STAT_CONFIG, type CardSlot } from '$lib/models/types';
+	import { Star } from '@lucide/svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	interface Props {
-		card: ICard;
-		thief: Thief;
-	}
 
-	const { card, thief }: Props = $props();
+	import {
+		revelationCardSchema,
+		type RevelationCardFormData
+	} from '$lib/schemas/revelation-card.schema';
+	import { superForm } from 'sveltekit-superforms';
+	import { valibotClient } from 'sveltekit-superforms/adapters';
 
-	function calculateCardScore(card: ICard) {
-		if (!card) return 0;
-		const score = thief.calculateCardScore(card, thief);
-		return score;
-	}
+	const cardSlot = '' as CardSlot;
 
-	export function getStatPriorityClass(statType: StatType): string {
-		const thiefWeights = thief.getThiefWeights(thief);
-		const weight = thiefWeights.attribute_weights[statType as keyof IAttributeWeights];
+	const defaults: Partial<RevelationCardFormData> = {
+		name: '',
+		rarity: 4,
+		level: 0,
+		slot: 'sky',
+		mainStat: [],
+		subStats: [],
+		locked: false,
+		equipped: false
+	};
 
-		if (!weight) return '';
-
-		if (weight >= 2) {
-			return 'priority-high';
+	const { form, errors, enhance, constraints } = superForm(defaults, {
+		validators: valibotClient(revelationCardSchema),
+		SPA: true,
+		onUpdate: ({ form }) => {
+			if (form.valid) {
+				console.log('Valid form data:', form.data);
+			}
 		}
-
-		if (weight > 1) {
-			return 'priority-medium';
-		}
-
-		return '';
-	}
+	});
 </script>
+
+<form method="POST" use:enhance>
+	<Form.Field {form} name="name">
+		<Form.Control let:attrs>
+			{#snippet children({ props })}
+				<Form.Label>Card Level</Form.Label>
+				<Input
+					{...props}
+					bind:value={RevelationCardFormData.level}
+					type="number"
+					min="0"
+					max="25"
+				/>
+			{/snippet}
+		</Form.Control>
+	</Form.Field>
+</form>
 
 <div class="revelation-card">
 	<Card.Root class="-my-4 w-full max-w-sm">
 		<Card.Header class="flex h-8 items-center space-x-4">
-			<img src={card.image} alt="revelation card" class="revelation-card--image" />
 			<Card.Title class="capitalize">
-				{card.slot}
+				{cardSlot}
 			</Card.Title>
 			<Separator orientation="vertical" />
-			<p>Rating - {calculateCardScore(card)} %</p>
 		</Card.Header>
 		<Separator />
 		<Card.Content>
@@ -54,10 +70,7 @@
 				<div class="revelation-card--main-stats">
 					{#each card.mainStat as stat}
 						<div class="revelation-card--stat-container">
-							<div class="revelation-card--stat-container--label {getStatPriorityClass(stat.type)}">
-								{#if getStatPriorityClass(stat.type) === 'priority-high' || getStatPriorityClass(stat.type) === 'priority-medium'}
-									<Star size={16} aria-label="Prioritized stat" />
-								{/if}
+							<div class="revelation-card--stat-container--label">
 								<p class="revelation-card--stat-container--label--text">
 									{STAT_CONFIG[stat.type].name}
 								</p>
@@ -130,14 +143,6 @@
 			display: flex;
 			gap: 8px;
 			align-items: center;
-		}
-
-		.priority-high {
-			color: var(--color-amber-600);
-		}
-
-		.priority-medium {
-			color: var(--color-amber-400);
 		}
 
 		&--value {
