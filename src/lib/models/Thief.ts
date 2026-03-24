@@ -106,7 +106,7 @@ export class Thief extends Entity<P5XDatabase> implements IThief {
 			await this.db.cards.update(previousCardId, { equippedTo: null });
 		}
 
-		this.equippedCards[slot] = cardId;
+		this.equippedCards[slot] = slot;
 		await this.db.cards.update(cardId, { equippedTo: this.id });
 		await this.db.thieves.update(this.id, { equippedCards: this.equippedCards });
 	}

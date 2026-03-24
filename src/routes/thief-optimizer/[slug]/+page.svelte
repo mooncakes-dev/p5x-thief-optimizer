@@ -72,11 +72,11 @@
 		if (!thief) return;
 		await thiefStore.update(thief.id, {
 			equippedCards: {
-				sun: '',
-				moon: '',
-				star: '',
-				sky: '',
-				space: ''
+				sun: 'b3c75a6c-b17a-4de7-bef7-1b427c61f578',
+				moon: '0bbd617e-e0b9-4a84-b6ef-22e3b2255400',
+				star: '386dd703-6111-42de-9041-6bc1fbdf9176',
+				sky: '15c1697d-04a0-4c05-aea4-c48704d37a53',
+				space: 'd9e4a1b2-0efe-4b72-94aa-6f092941f87f'
 			}
 		});
 	}
@@ -276,6 +276,7 @@
 							{#each cards as card}
 								<ThiefCard {card} {thief} />
 							{/each}
+							<EmptyThiefCard></EmptyThiefCard>
 						</div>
 					{/await}
 				</div>

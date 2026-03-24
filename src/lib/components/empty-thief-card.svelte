@@ -1,8 +1,4 @@
 <script lang="ts">
-	import { Field, Control, Label, FieldErrors, Description } from 'formsnap';
-	import * as Form from '$lib/components/ui/form/index.js';
-	import type { ICard } from '$lib/models/Card';
-	import * as Card from '$lib/components/ui/card/index.js';
 	import { Separator } from '$lib/components/ui/separator';
 	import { STAT_CONFIG, type CardSlot } from '$lib/models/types';
 	import { Star } from '@lucide/svelte';
