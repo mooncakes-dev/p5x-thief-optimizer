@@ -1,4 +1,5 @@
 <script>
-</script>
+	import { goto } from '$app/navigation';
 
-<div class="min-h-screen bg-background p-6 md:p-8"></div>
+	goto('dashboard');
+</script>
