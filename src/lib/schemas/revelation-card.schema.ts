@@ -4,6 +4,7 @@ import type { StatType, Rarity, CardSlot } from '$lib/models/types';
 
 const statTypeSchema = v.picklist([
 	'hp',
+	'hp_recovery_percent',
 	'atk',
 	'def',
 	'speed',
@@ -50,7 +51,7 @@ export const revelationCardSchema = v.object({
 			v.number(),
 			v.integer(),
 			v.minValue(0),
-			v.maxValue(15, 'Level must be between 0 and 15')
+			v.maxValue(25, 'Level must be between 0 and 25')
 		),
 		0
 	),

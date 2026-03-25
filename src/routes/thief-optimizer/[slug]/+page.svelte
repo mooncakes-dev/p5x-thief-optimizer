@@ -4,6 +4,7 @@
 	import * as Field from '$lib/components/ui/field/index.js';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Button } from '$lib/components/ui/button';
+	import * as Select from '$lib/components/ui/select/index.js';
 
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Pencil } from '@lucide/svelte';
@@ -12,12 +13,21 @@
 	import AddRevelationCardForm from '$lib/components/addRevelationCardForm.svelte';
 	import type { ICard } from '$lib/models/Card';
 	import ThiefCard from '$lib/components/thief-card.svelte';
+	import EmptyThiefCard from '$lib/components/empty-thief-card.svelte';
+	import type { CardSlot } from '$lib/models/types';
+	import { CardSets, SpaceCards } from '$lib/constants/revelation-cards';
 
 	let { data }: PageProps = $props();
 
 	let thief = $derived(data?.selectedThief);
 	let open = $state(false);
 	let openCardForm = $state(false);
+	let cardSlots: CardSlot[] = ['sun', 'moon', 'star', 'sky'];
+	const cardSets = CardSets;
+	const spaceCards = SpaceCards;
+
+	let selectedCardSet = $state('');
+	let selectedSpaceCard = $state('');
 
 	let thiefStatsFormData = $state<IBaseStats>({
 		hp: 0,
@@ -57,7 +67,7 @@
 		thief = await thiefStore.getById(thief.id);
 	}
 
-	async function getEquippedRevelationCards(thief: Thief) {
+	async function getEquippedRevelationCards(thief: Thief): Promise<ICard[]> {
 		if (!thief) return [];
 		return await thief?.getEquippedCards();
 	}
@@ -272,12 +282,52 @@
 					{#await getEquippedRevelationCards(thief)}
 						<p>Loading cards...</p>
 					{:then cards}
-						<div class="revelation-cards--container">
-							{#each cards as card}
-								<ThiefCard {card} {thief} />
-							{/each}
-							<EmptyThiefCard></EmptyThiefCard>
-						</div>
+						{#if cards.length === 0}
+							<div class="mb-4 flex gap-3">
+								<Select.Root
+									type="single"
+									value={selectedCardSet}
+									onValueChange={(v) => (selectedCardSet = v)}
+								>
+									<Select.Trigger class="h-8 w-44 text-sm">
+										{selectedCardSet || 'Card set…'}
+									</Select.Trigger>
+									<Select.Content>
+										{#each cardSets as set}
+											<Select.Item value={set}>{set}</Select.Item>
+										{/each}
+									</Select.Content>
+								</Select.Root>
+
+								<Select.Root
+									type="single"
+									value={selectedSpaceCard}
+									onValueChange={(v) => (selectedSpaceCard = v)}
+								>
+									<Select.Trigger class="h-8 w-44 text-sm">
+										{selectedSpaceCard || 'Space card…'}
+									</Select.Trigger>
+									<Select.Content>
+										{#each spaceCards as card}
+											<Select.Item value={card}>{card}</Select.Item>
+										{/each}
+									</Select.Content>
+								</Select.Root>
+							</div>
+							<p class="text-sm text-italic text-muted-foreground">* The cards are assumed to be gold and max level</p>
+
+							{#if cards.length === 0}
+								<div class="revelation-cards--container">
+									{#each cardSlots as slot}
+										<EmptyThiefCard cardSlot={slot as CardSlot} prefilledName={selectedCardSet} />
+									{/each}
+									<EmptyThiefCard cardSlot="space" prefilledName={selectedSpaceCard} />
+								</div>
+							{/if}
+						{/if}
+						{#each cards as card}
+							<ThiefCard {card} {thief} />
+						{/each}
 					{/await}
 				</div>
 			</Card.Content>
@@ -299,7 +349,7 @@
 
 	.revelation-cards--container {
 		display: grid;
-		gap: 16px;
+		gap: 14px;
 
 		grid-template-columns: 1fr;
 
@@ -312,10 +362,9 @@
 		}
 
 		@media (min-width: 1440px) {
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(5, 1fr);
 		}
 
-		/* Ensure all items in a row match the tallest card's height */
 		grid-auto-rows: 1fr;
 	}
 </style>

@@ -9,6 +9,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
 	import { splitString, transformPathToTitle } from '$lib/utils/helper-utils';
+	import { Toaster } from 'svelte-sonner';
 
 	let { children } = $props();
 
@@ -33,6 +34,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<Toaster />
 <ModeWatcher />
 <Sidebar.Provider>
 	<AppSidebar />

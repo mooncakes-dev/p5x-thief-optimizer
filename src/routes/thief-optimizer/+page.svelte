@@ -7,7 +7,6 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { Pencil } from '@lucide/svelte';
 
 	import { thiefStore } from '$lib/store/thieves.svelte';
 	import { Thief, type IBaseStats, type IThief, type IWeapon } from '$lib/models/Thief';
@@ -177,7 +176,7 @@
 					<Card.Title>My Thieves</Card.Title>
 					<Card.Description>All of the thieves you have added in the past</Card.Description>
 				</Card.Header>
-				<Card.Content>
+				<Card.Content class="flex flex-col gap-4">
 					{#each thiefStore.thieves as thief}
 						<Item.Root variant="outline">
 							<Item.Content>
