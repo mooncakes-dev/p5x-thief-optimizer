@@ -52,9 +52,12 @@ interface IEquippedCards {
 export interface IWeapon {
 	image: string;
 	name: string;
-	rariry: Rarity;
+	rarity: Rarity;
 	lvl: number;
 	forgeLvl: WeaponForge;
+	hp: number;
+	atk: number;
+	def: number;
 }
 
 export class Thief extends Entity<P5XDatabase> implements IThief {

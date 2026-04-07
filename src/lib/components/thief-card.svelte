@@ -3,7 +3,7 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Separator } from '$lib/components/ui/separator';
 	import { STAT_CONFIG, type StatType, SlotMainStats } from '$lib/models/types';
-	import { slotToIcon, availableSubStats } from '$lib/utils/card-utils';
+	import { availableSubStats, resolveAssetImage } from '$lib/utils/card-utils';
 	import type { Thief } from '$lib/models/Thief';
 	import type { IAttributeWeights } from '$lib/constants/character-weights';
 	import { Star, Pencil } from '@lucide/svelte';
@@ -73,7 +73,7 @@
 	<Card.Header>
 		<div class="flex items-center gap-2">
 			<img
-				src={slotToIcon(card.slot, 'slot_icons')}
+				src={resolveAssetImage(card.slot, 'slot_icons')}
 				alt={`${card.slot} card slot`}
 				class="h-5 w-5"
 			/>

@@ -40,9 +40,12 @@
 	let weaponFormData = $state<IWeapon>({
 		name: '',
 		lvl: 0,
-		rariry: 2,
+		rarity: 2,
 		forgeLvl: 0,
-		image: ''
+		image: '',
+		hp: 0,
+		atk: 0,
+		def: 0
 	});
 
 	let thiefStats = $state<IBaseStats | null>(null);
@@ -110,8 +113,11 @@
 				image: '',
 				name: weaponFormData.name,
 				lvl: weaponFormData.lvl,
-				rariry: weaponFormData.rariry,
-				forgeLvl: weaponFormData.forgeLvl
+				rarity: weaponFormData.rarity,
+				forgeLvl: weaponFormData.forgeLvl,
+				hp: weaponFormData.hp,
+				atk: weaponFormData.atk,
+				def: weaponFormData.def
 			},
 			userStats: null,
 			recommendedStats: null
@@ -266,7 +272,7 @@
 											placeholder="Eg. 1"
 											min="0"
 											max="5"
-											bind:value={weaponFormData.rariry}
+											bind:value={weaponFormData.rarity}
 										/>
 									</Field.Field>
 									<div class="grid grid-cols-2 gap-4">
