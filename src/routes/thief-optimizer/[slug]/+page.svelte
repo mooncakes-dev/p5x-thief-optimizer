@@ -261,24 +261,8 @@
 						</div>
 					</div>
 
-					<div class="flex gap-4 align-middle">
-						<h3 class="mb-2 text-lg font-semibold">Revelation Cards</h3>
-						<Button onclick={() => refreshCards()}>Refresh cards</Button>
-						<Dialog.Root bind:openCardForm>
-							<Dialog.Trigger>
-								<Button variant="ghost" size="icon-sm" aria-label="Submit">
-									<Pencil />
-								</Button>
-							</Dialog.Trigger>
-							<Dialog.Content>
-								<Dialog.Header>
-									<Dialog.Title>Add a revelation card</Dialog.Title>
-									<Dialog.Description></Dialog.Description>
-								</Dialog.Header>
-								<AddRevelationCardForm />
-							</Dialog.Content>
-						</Dialog.Root>
-					</div>
+					<h3 class="mb-2 text-lg font-semibold">Revelation Cards</h3>
+
 					{#await getEquippedRevelationCards(thief)}
 						<p>Loading cards...</p>
 					{:then cards}
@@ -314,7 +298,9 @@
 									</Select.Content>
 								</Select.Root>
 							</div>
-							<p class="text-sm text-italic text-muted-foreground">* The cards are assumed to be gold and max level</p>
+							<p class="text-italic text-sm text-muted-foreground">
+								* The cards are assumed to be gold and max level
+							</p>
 
 							{#if cards.length === 0}
 								<div class="revelation-cards--container">
@@ -325,9 +311,11 @@
 								</div>
 							{/if}
 						{/if}
-						{#each cards as card}
-							<ThiefCard {card} {thief} />
-						{/each}
+						<div class="revelation-cards--container">
+							{#each cards as card}
+								<ThiefCard {card} {thief} />
+							{/each}
+						</div>
 					{/await}
 				</div>
 			</Card.Content>
