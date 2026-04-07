@@ -2,11 +2,14 @@
 	import type { ICard } from '$lib/models/Card';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Separator } from '$lib/components/ui/separator';
-	import { STAT_CONFIG, type StatType } from '$lib/models/types';
+	import { STAT_CONFIG, type StatType, SlotMainStats } from '$lib/models/types';
+	import { slotToIcon, availableSubStats } from '$lib/utils/card-utils';
 	import type { Thief } from '$lib/models/Thief';
 	import type { IAttributeWeights } from '$lib/constants/character-weights';
-	import { CircleStar, Star } from '@lucide/svelte';
-	import { Input } from '$lib/components/ui/input/index.js';
+	import { Star, Pencil } from '@lucide/svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import StatInputRow from '$lib/components/stat-input-row.svelte';
+
 	interface Props {
 		card: ICard;
 		thief: Thief;
@@ -14,134 +17,152 @@
 
 	const { card, thief }: Props = $props();
 
-	function calculateCardScore(card: ICard) {
-		if (!card) return 0;
-		const score = thief.calculateCardScore(card, thief);
-		return score;
+	let isEditing = $state(false);
+
+	const isFixed = $derived(card.slot === 'sun' || card.slot === 'space');
+	const mainStatOptions = $derived(SlotMainStats[card.slot] ?? []);
+
+	type SubRow = { type: StatType | ''; value: number | '' };
+
+	let editMainStatType = $state<StatType | ''>('');
+	let editMainStatValue = $state<number | ''>(0);
+	let editSubRows = $state<SubRow[]>([
+		{ type: '', value: '' },
+		{ type: '', value: '' },
+		{ type: '', value: '' },
+		{ type: '', value: '' }
+	]);
+
+	function startEdit() {
+		editMainStatType = card.mainStat[0]?.type ?? '';
+		editMainStatValue = card.mainStat[0]?.value ?? 0;
+		editSubRows = [
+			{ type: card.subStats[0]?.type ?? '', value: card.subStats[0]?.value ?? '' },
+			{ type: card.subStats[1]?.type ?? '', value: card.subStats[1]?.value ?? '' },
+			{ type: card.subStats[2]?.type ?? '', value: card.subStats[2]?.value ?? '' },
+			{ type: card.subStats[3]?.type ?? '', value: card.subStats[3]?.value ?? '' }
+		];
+		isEditing = true;
 	}
 
-	export function getStatPriorityClass(statType: StatType): string {
+	function cancelEdit() {
+		isEditing = false;
+	}
+
+	function saveEdit() {
+		// TODO: actually update the stored cards
+		isEditing = false;
+	}
+
+	function calculateCardScore(c: ICard) {
+		if (!c) return 0;
+		return thief.calculateCardScore(c, thief);
+	}
+
+	function getStatPriorityClass(statType: StatType): string {
 		const thiefWeights = thief.getThiefWeights(thief);
 		const weight = thiefWeights.attribute_weights[statType as keyof IAttributeWeights];
-
 		if (!weight) return '';
-
-		if (weight >= 2) {
-			return 'priority-high';
-		}
-
-		if (weight > 1) {
-			return 'priority-medium';
-		}
-
+		if (weight >= 2) return 'text-amber-600';
+		if (weight > 1) return 'text-amber-400';
 		return '';
 	}
 </script>
 
-<div class="revelation-card">
-	<Card.Root class="-my-4 w-full max-w-sm">
-		<Card.Header class="flex h-8 items-center space-x-4">
-			<img src={card.image} alt="revelation card" class="revelation-card--image" />
-			<Card.Title class="capitalize">
-				{card.slot}
-			</Card.Title>
-			<Separator orientation="vertical" />
-			<p>Rating - {calculateCardScore(card)} %</p>
-		</Card.Header>
-		<Separator />
-		<Card.Content>
-			<div class="revelation-card--body">
-				<div class="revelation-card--main-stats">
-					{#each card.mainStat as stat}
-						<div class="revelation-card--stat-container">
-							<div class="revelation-card--stat-container--label {getStatPriorityClass(stat.type)}">
-								{#if getStatPriorityClass(stat.type) === 'priority-high' || getStatPriorityClass(stat.type) === 'priority-medium'}
-									<Star size={16} aria-label="Prioritized stat" />
-								{/if}
-								<p class="revelation-card--stat-container--label--text">
-									{STAT_CONFIG[stat.type].name}
-								</p>
-							</div>
-							<p class="revelation-card--stat-container--value">
-								{stat.value}
-								{STAT_CONFIG[stat.type].isPercent ? '%' : ''}
-							</p>
-						</div>
-					{/each}
-				</div>
-				<Separator />
-				<div class="revelation-card--sub-stats">
-					{#each card.subStats as stat}
-						<div class="revelation-card--stat-container">
-							<div class="revelation-card--stat-container--label {getStatPriorityClass(stat.type)}">
-								{#if getStatPriorityClass(stat.type) === 'priority-high' || getStatPriorityClass(stat.type) === 'priority-medium'}
-									<Star size={16} aria-label="Prioritized stat" />
-								{/if}
-								<p class="revelation-card--stat-container--label--text">
-									{STAT_CONFIG[stat.type].name}
-								</p>
-							</div>
-							<p class="revelation-card--stat-container--value">
-								{stat.value}
-								{STAT_CONFIG[stat.type].isPercent ? '%' : ''}
-							</p>
-						</div>
-					{/each}
-				</div>
+<Card.Root class="">
+	<Card.Header>
+		<div class="flex items-center gap-2">
+			<img
+				src={slotToIcon(card.slot, 'slot_icons')}
+				alt={`${card.slot} card slot`}
+				class="h-5 w-5"
+			/>
+			<div class="">
+				<Card.Title>{card.slot}</Card.Title>
+				<Card.Description>{card.set}</Card.Description>
 			</div>
-		</Card.Content>
-	</Card.Root>
-</div>
+		</div>
+		<Card.Action>
+			{#if !isEditing}
+				<Button variant="ghost" size="icon" class="ml-auto h-6 w-6" onclick={startEdit}>
+					<Pencil size={12} />
+				</Button>
+			{/if}
+		</Card.Action>
+	</Card.Header>
+	<Separator />
 
-<style lang="scss">
-	.revelation-card {
-		height: auto;
-		display: flex;
-		flex-direction: column;
-	}
+	<Card.Content class="px-3">
+		<div class="space-y-3">
+			<div class="flex items-center justify-between">
+				<span class="text-xs font-medium text-muted-foreground">Rating</span>
+				<span class="text-sm font-semibold">{calculateCardScore(card)}%</span>
+			</div>
 
-	.revelation-card--image {
-		height: 60px;
-	}
+			<Separator />
 
-	.revelation-card--body {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-	}
+			<div class="space-y-1.5">
+				<p class="text-xs font-medium text-muted-foreground">Main Stat</p>
 
-	.revelation-card--main-stats {
-		font-weight: var(--font-weight-semibold);
-	}
+				{#if isEditing && !isFixed}
+					<StatInputRow
+						bind:statType={editMainStatType}
+						bind:value={editMainStatValue}
+						options={mainStatOptions}
+					/>
+				{:else}
+					{#each card.mainStat as stat}
+						<div class="flex items-center justify-between rounded-md bg-muted/50 px-3 py-1.5">
+							<div class="flex items-center gap-1.5 {getStatPriorityClass(stat.type)}">
+								{#if getStatPriorityClass(stat.type)}
+									<Star size={12} />
+								{/if}
+								<span class="text-sm font-semibold">{STAT_CONFIG[stat.type].name}</span>
+							</div>
+							<span class="text-sm font-semibold"
+								>{stat.value}{STAT_CONFIG[stat.type].isPercent ? '%' : ''}</span
+							>
+						</div>
+					{/each}
+				{/if}
+			</div>
 
-	.revelation-card--sub-stats {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
+			<Separator />
 
-	.revelation-card--stat-container {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		font-size: var(--text-sm);
-
-		&--label {
-			display: flex;
-			gap: 8px;
-			align-items: center;
-		}
-
-		.priority-high {
-			color: var(--color-amber-600);
-		}
-
-		.priority-medium {
-			color: var(--color-amber-400);
-		}
-
-		&--value {
-			font-weight: var(--font-weight-semibold);
-		}
-	}
-</style>
+			<div class="space-y-3">
+				<p class="text-xs font-medium text-muted-foreground">Sub Stats</p>
+				{#if isEditing}
+					{#each editSubRows as row, i}
+						<StatInputRow
+							bind:statType={editSubRows[i].type}
+							bind:value={editSubRows[i].value}
+							options={availableSubStats(i, editMainStatType, editSubRows)}
+							placeholder="Sub {i + 1}…"
+							disabled={!row.type}
+						/>
+					{/each}
+				{:else}
+					{#each card.subStats as stat}
+						<div class="flex items-center justify-between">
+							<div class="flex items-center gap-1.5 {getStatPriorityClass(stat.type)}">
+								{#if getStatPriorityClass(stat.type)}
+									<Star size={12} />
+								{/if}
+								<span class="text-sm">{STAT_CONFIG[stat.type].name}</span>
+							</div>
+							<span class="text-sm font-semibold"
+								>{stat.value}{STAT_CONFIG[stat.type].isPercent ? '%' : ''}</span
+							>
+						</div>
+					{/each}
+				{/if}
+			</div>
+			{#if isEditing}
+				<div class="flex gap-1.5 pb-3">
+					<Button variant="outline" size="sm" class="flex-1" onclick={cancelEdit}>Cancel</Button>
+					<Button size="sm" class="flex-1" onclick={saveEdit}>Save</Button>
+				</div>
+			{/if}
+		</div>
+	</Card.Content>
+</Card.Root>

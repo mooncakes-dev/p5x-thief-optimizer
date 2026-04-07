@@ -66,6 +66,35 @@ const JOKER = {
 	}
 };
 
+const VIOLET = {
+		base_attributes: {
+		hidden_ability: {
+			gained_lvl: 7,
+			stat: {
+				type: 'atk_percent',
+				value: 29
+			}
+		},
+		a0: [{ hp: 3390 }, { atk: 1160 }, { def: 560 }]
+	},
+	attribute_goals: {
+		a0: {
+			atk: 1160,
+			damage_mult: 43,
+			crit_rate: 37,
+			crit_mult: 177
+		}
+	},
+	attribute_weights: {
+		crit_mult: 2.0,
+		pierce_rate_percent: 1.5,
+		crit_rate_percent: 1.5,
+		atk: 1.0,
+		damage_mult: 1.0,
+	}
+}
+
 export const CHARACTER_WEIGHTS: Record<string, any> = {
-	Joker: JOKER
+	Joker: JOKER,
+	Vilet: VIOLET
 };
