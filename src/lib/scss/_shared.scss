@@ -1,0 +1,25 @@
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: hsl(var(--muted-foreground));
+}
+
+.section-header__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--muted-foreground));
+    margin: 0;
+}
+
+:global(.section-header__action) {
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+        opacity: 1;
+    }
+}

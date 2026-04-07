@@ -8,8 +8,8 @@ const images = import.meta.glob('$lib/assets/**/*.{png,svg,webp}', {
 
 export const ALL_STAT_TYPES = Object.keys(STAT_CONFIG) as StatType[];
 
-export function slotToIcon(slot: string, folder: string): string | undefined {
-	return Object.entries(images).find(([p]) => p.includes(folder) && p.includes(slot))?.[1] as
+export function resolveAssetImage(name: string, folder: string): string | undefined {
+	return Object.entries(images).find(([p]) => p.includes(folder) && p.includes(name))?.[1] as
 		| string
 		| undefined;
 }

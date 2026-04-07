@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type StatType, type CardSlot, SlotMainStats } from '$lib/models/types';
-	import { slotToIcon, availableSubStats } from '$lib/utils/card-utils';
+	import { resolveAssetImage, availableSubStats } from '$lib/utils/card-utils';
 
 	import {
 		revelationCardSchema,
@@ -104,7 +104,7 @@
 		<Card.Header class="px-3 pt-3 pb-2">
 			<div class="flex items-center gap-2">
 				<img
-					src={slotToIcon(cardSlot, 'slot_icons')}
+					src={resolveAssetImage(cardSlot, 'slot_icons')}
 					alt={`${cardSlot} card slot`}
 					class="h-5 w-5"
 				/>
