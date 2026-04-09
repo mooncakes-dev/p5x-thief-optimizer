@@ -17,7 +17,7 @@
 		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^2.0.3",
+		"@eslint/compat": "^2.0.5",
 		"@eslint/js": "^10.0.1",
 		"@fontsource/source-sans-pro": "^5.2.5",
 		"@inlang/paraglide-js": "^2.15.0",
