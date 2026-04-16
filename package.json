@@ -43,7 +43,7 @@
 		"formsnap": "^2.0.1",
 		"globals": "^17.4.0",
 		"playwright": "^1.59.1",
-		"prettier": "^3.8.2",
+		"prettier": "^3.8.3",
 		"prettier-plugin-svelte": "^3.5.1",
 		"prettier-plugin-tailwindcss": "^0.7.2",
 		"sass-embedded": "^1.99.0",
