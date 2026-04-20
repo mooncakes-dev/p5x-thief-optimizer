@@ -1,6 +1,6 @@
 // revelation-card.schema.ts
 import * as v from 'valibot';
-import type { StatType, Rarity, CardSlot } from '$lib/models/types';
+import type { StatType, Rarity, CardSlot } from '$lib/db/types';
 
 const statTypeSchema = v.picklist([
 	'hp',

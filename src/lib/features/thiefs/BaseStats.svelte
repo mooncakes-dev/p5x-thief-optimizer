@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input/index.js';
-	import type { IBaseStats } from '$lib/models/Thief';
+	import type { IBaseStats } from '$lib/db/Thief';
 	import { thiefStore } from '$lib/store/thieves.svelte';
-	import { Heart, Swords, Shield, Zap, Gauge, Flame, Crosshair, Pencil } from '@lucide/svelte';
+	import { Heart, Swords, Shield, Zap, Gauge, Flame, Crosshair } from '@lucide/svelte';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Button } from '$lib/components/ui/button';
 	import * as Field from '$lib/components/ui/field/index.js';

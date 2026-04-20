@@ -1,4 +1,4 @@
-import type { Thief, IThief } from '$lib/models/Thief';
+import type { Thief, IThief } from '$lib/db/Thief';
 import { db } from '$lib/db';
 
 export class ThiefStore {

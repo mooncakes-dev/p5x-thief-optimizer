@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type StatType, type CardSlot, SlotMainStats } from '$lib/models/types';
+	import { type StatType, type CardSlot, SlotMainStats } from '$lib/db/types';
 	import { resolveAssetImage, availableSubStats } from '$lib/utils/card-utils';
 
 	import {

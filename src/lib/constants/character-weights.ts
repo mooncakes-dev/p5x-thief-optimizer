@@ -1,4 +1,4 @@
-import type { StatType } from '$lib/models/types';
+import type { StatType } from '$lib/db/types';
 
 // interface ICharacterWeights {
 // 	base_attributes: IBaseAttributes;

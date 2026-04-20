@@ -1,4 +1,4 @@
-import { STAT_CONFIG, type StatType } from '$lib/models/types';
+import { STAT_CONFIG, type StatType } from '$lib/db/types';
 
 const images = import.meta.glob('$lib/assets/**/*.{png,svg,webp}', {
 	eager: true,

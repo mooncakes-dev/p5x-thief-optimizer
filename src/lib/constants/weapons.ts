@@ -1,4 +1,4 @@
-import type { IWeapon } from "$lib/models/Thief";
+import type { IWeapon } from "$lib/db/Thief";
 import { resolveAssetImage } from "$lib/utils/card-utils";
 
 export const WEAPONS = [

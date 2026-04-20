@@ -1,5 +1,5 @@
 import { db } from '$lib/db';
-import type { Card, ICard } from '$lib/models/Card';
+import type { Card, ICard } from '$lib/db/Card';
 
 export class CardStore {
 	cards = $state<Card[]>([]);

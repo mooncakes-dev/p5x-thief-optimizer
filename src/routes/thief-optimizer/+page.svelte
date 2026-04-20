@@ -4,13 +4,11 @@
 	import * as Field from '$lib/components/ui/field/index.js';
 	import * as Item from '$lib/components/ui/item/index.js';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
-
 	import { Input } from '$lib/components/ui/input/index.js';
 
 	import { thiefStore } from '$lib/store/thieves.svelte';
-	import { Thief, type IBaseStats, type IThief, type IWeapon } from '$lib/models/Thief';
-	import type { ICard } from '$lib/models/Card';
+	import { Thief, type IBaseStats, type IThief, type IWeapon } from '$lib/db/Thief';
+	import type { ICard } from '$lib/db/Card';
 	import { cardStore } from '$lib/store/cards.svelte';
 
 	let stats = [

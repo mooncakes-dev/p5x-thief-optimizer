@@ -1,11 +1,8 @@
 <script lang="ts">
-	import type { ICard } from '$lib/models/Card';
-	import * as Field from '$lib/components/ui/field/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
+	import type { ICard } from '$lib/db/Card';
 	import { Button } from '$lib/components/ui/button';
 	import { cardStore } from '$lib/store/cards.svelte';
-	import * as Select from '$lib/components/ui/select/index.js';
-	import type { CardSlot } from '$lib/models/types';
+	import type { CardSlot } from '$lib/db/types';
 	import departureIcon from '$lib/assets/cards/departure_Icon.png';
 	import hindranceIcon from '$lib/assets/cards/hindrance_Icon.png';
 

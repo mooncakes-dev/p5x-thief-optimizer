@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { ICard } from '$lib/models/Card';
+	import type { ICard } from '$lib/db/Card';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Separator } from '$lib/components/ui/separator';
-	import { STAT_CONFIG, type StatType, SlotMainStats } from '$lib/models/types';
+	import { STAT_CONFIG, type StatType, SlotMainStats } from '$lib/db/types';
 	import { availableSubStats, resolveAssetImage } from '$lib/utils/card-utils';
-	import type { Thief } from '$lib/models/Thief';
+	import type { Thief } from '$lib/db/Thief';
 	import type { IAttributeWeights } from '$lib/constants/character-weights';
 	import { Star, Pencil } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';

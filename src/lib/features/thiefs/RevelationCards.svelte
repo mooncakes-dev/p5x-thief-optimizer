@@ -2,9 +2,9 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import ThiefCard from '$lib/components/thief-card.svelte';
 	import EmptyThiefCard from '$lib/components/empty-thief-card.svelte';
-	import type { Thief } from '$lib/models/Thief';
-	import type { ICard } from '$lib/models/Card';
-	import type { CardSlot } from '$lib/models/types';
+	import type { Thief } from '$lib/db/Thief';
+	import type { ICard } from '$lib/db/Card';
+	import type { CardSlot } from '$lib/db/types';
 	import { CardSets, SpaceCards } from '$lib/constants/revelation-cards';
 	import { thiefStore } from '$lib/store/thieves.svelte';
 

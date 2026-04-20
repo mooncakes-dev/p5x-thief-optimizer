@@ -1,6 +1,6 @@
 import Dexie, { type EntityTable } from 'dexie';
-import { Thief } from './models/Thief';
-import { Card } from './models/Card';
+import { Thief } from './db/Thief';
+import { Card } from './db/Card';
 
 export default class P5XDatabase extends Dexie {
 	thieves!: EntityTable<Thief, 'id'>;
