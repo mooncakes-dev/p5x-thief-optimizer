@@ -8,7 +8,7 @@ export interface IStatConfig {
   def_percent: IStatConfigDescription;
   speed: IStatConfigDescription;
   sp: IStatConfigDescription;
-  sp_recovery_percent: IStatConfigDescription;
+  sp_recovery: IStatConfigDescription;
   damage_mult: IStatConfigDescription;
   crit_rate: IStatConfigDescription;
   crit_mult: IStatConfigDescription;
@@ -21,7 +21,11 @@ interface IStatConfigDescription {
   isPercent: boolean;
 }
 
-// Stats dictionary. Used for deriving a StatType, and display purposes to keep it consistent.
+/**
+ * Stats definitions
+ * Used for deriving a StatType
+ * Also used for display purposes
+ */
 export const STAT_CONFIG: IStatConfig = {
   hp: { name: "HP", isPercent: false },
   hp_recovery: { name: "Hp Recovery %", isPercent: true },
@@ -29,10 +33,10 @@ export const STAT_CONFIG: IStatConfig = {
   atk: { name: 'ATK', isPercent: false },
   atk_percent: { name: 'ATK %', isPercent: true },
   def: { name: 'DEF', isPercent: false },
-  def_percent: { name: 'DEF', isPercent: true },
+  def_percent: { name: 'DEF %', isPercent: true },
   speed: { name: 'Speed', isPercent: false },
   sp: { name: 'SP', isPercent: false },
-  sp_recovery_percent: { name: 'SP Recovery %', isPercent: true },
+  sp_recovery: { name: 'SP Recovery %', isPercent: true },
   damage_mult: { name: 'Damage Mult', isPercent: true },
   crit_rate: { name: 'Crit Rate', isPercent: true },
   crit_mult: { name: 'Crit Mult', isPercent: true },
@@ -47,3 +51,34 @@ export interface IStatEntry {
   type: StatType;
   value: number;
 }
+
+export type Rarity = 1 | 2 | 3 | 4 | 5;
+export type CardSlot = 'sun' | 'moon' | 'star' | 'sky' | 'space';
+export type ThiefAwareness = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+export type WeaponForge = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+export const SlotMainStats: Record<CardSlot, StatType[]> = {
+  sun: ['hp'],
+  moon: ['atk_percent', 'def_percent', 'hp_percent', 'damage_mult', 'hp_recovery'],
+  star: [
+    'atk_percent',
+    'def_percent',
+    'hp_percent',
+    'crit_rate',
+    'crit_mult',
+    'ailment_accuracy'
+  ],
+  sky: ['atk_percent', 'def_percent', 'hp_percent', 'speed', 'sp_recovery'],
+  space: ['atk', 'def']
+} as const;
+
+export const SubStatsPool: readonly StatType[] = [
+  'atk', 'atk_percent',
+  'def', 'def_percent',
+  'hp', 'hp_percent',
+  'damage_mult',
+  'ailment_accuracy',
+  'crit_rate', 'crit_mult',
+  'speed', 'sp_recovery',
+  'pierce_rate'
+] as const;

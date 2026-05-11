@@ -1,5 +1,5 @@
 const STAT_ROLLS = {
-	revelation_cards: {
+	revelation: {
 		crit_rate: {
 			min: 1.3,
 			max: 2.0,
@@ -11,7 +11,7 @@ const STAT_ROLLS = {
 			rolls: [2.5, 2.8, 3.4, 3.7, 4.1]
 		}
 	},
-	space_card: {
+	space: {
 		crit_rate: {
 			min: 1.6,
 			max: 2.6,

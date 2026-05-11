@@ -1,4 +1,4 @@
-export type Rarity = 1 | 2 | 3 | 4 | 5;
+
 export const STAT_CONFIG = {
 	hp: { name: 'HP', isPercent: false },
 	hp_recovery_percent: { name: "Hp Recovery %", isPercent: true },
@@ -12,8 +12,8 @@ export const STAT_CONFIG = {
 	crit_mult: { name: 'Crit Mult', isPercent: true },
 	damage_mult: { name: 'Damage Mult', isPercent: true },
 	ailment_accuracy: { name: 'Ailment Accuracy', isPercent: true },
-	sp_recovery_percent: { name: 'SP Recovery %', isPercent: true },
-	pierce_rate_percent: { name: 'Pierce Rate %', isPercent: true },
+	sp_recovery: { name: 'SP Recovery %', isPercent: true },
+	pierce_rate: { name: 'Pierce Rate %', isPercent: true },
 	effect_hit: { name: 'Effect Hit', isPercent: true },
 	effect_res: { name: 'Effect RES', isPercent: true }
 } as const;
@@ -26,6 +26,7 @@ export type ThiefAwareness = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export type WeaponForge = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 export const SlotMainStats: Partial<Record<CardSlot, StatType[]>> = {
+	sun: ['hp'],
 	moon: ['atk_percent', 'def_percent', 'hp_percent', 'damage_mult', 'hp_recovery_percent'],
 	star: [
 		'atk_percent',
@@ -35,7 +36,7 @@ export const SlotMainStats: Partial<Record<CardSlot, StatType[]>> = {
 		'crit_mult',
 		'ailment_accuracy'
 	],
-	sky: ['atk_percent', 'def_percent', 'hp_percent', 'speed', 'sp_recovery_percent']
+	sky: ['atk_percent', 'def_percent', 'hp_percent', 'speed', 'sp_recovery']
 } as const;
 
 // Helper functions
