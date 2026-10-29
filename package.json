@@ -23,7 +23,7 @@
 		"@eslint/compat": "^2.0.5",
 		"@eslint/js": "^10.0.1",
 		"@fontsource/source-sans-pro": "^5.2.5",
-		"@inlang/paraglide-js": "^2.20.0",
+		"@inlang/paraglide-js": "^2.29.1",
 		"@internationalized/date": "^3.12.4",
 		"@lucide/svelte": "^1.52.0",
 		"@playwright/test": "^1.59.1",
