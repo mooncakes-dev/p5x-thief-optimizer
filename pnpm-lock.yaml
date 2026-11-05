@@ -82,8 +82,8 @@ importers:
         specifier: ^3.23.1
         version: 3.23.1(eslint@10.2.0(jiti@2.7.0)(supports-color@8.1.1))(svelte@5.55.7)
       formsnap:
-        specifier: ^2.0.1
-        version: 2.0.1(svelte@5.55.7)(sveltekit-superforms@2.30.1(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.0.0(svelte@5.55.7)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(svelte@5.55.7)(typescript@6.0.2)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(@types/json-schema@7.0.15)(svelte@5.55.7)(typescript@6.0.2))
+        specifier: ^2.1.0
+        version: 2.1.0(svelte@5.55.7)(sveltekit-superforms@2.30.1(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.0.0(svelte@5.55.7)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(svelte@5.55.7)(typescript@6.0.2)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(@types/json-schema@7.0.15)(svelte@5.55.7)(typescript@6.0.2))
       globals:
         specifier: ^17.5.0
         version: 17.5.0
@@ -1320,12 +1320,12 @@ packages:
   flatted@3.4.2:
     resolution: {integrity: sha512-PjDse7RzhcPkIJwy5t7KPWQSZ9cAbzQXcafsetQoD7sOJRQlGikNbx7yZp2OotDnJyrDcbyRq3Ttb18iYOqkxA==}
 
-  formsnap@2.0.1:
-    resolution: {integrity: sha512-iJSe4YKd/W6WhLwKDVJU9FQeaJRpEFuolhju7ZXlRpUVyDdqFdMP8AUBICgnVvQPyP41IPAlBa/v0Eo35iE6wQ==}
+  formsnap@2.1.0:
+    resolution: {integrity: sha512-LamLmpnseA5p1bH4UIGqla0an65zaA0GpWYXTzD/VW49lDPdjfS9sLzULVKju+a88L8knbajcIS2VXwDMshxkQ==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.0.0
-      sveltekit-superforms: ^2.19.0
+      sveltekit-superforms: ^2.19.0 || ^3.0.0
 
   fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
@@ -3410,7 +3410,7 @@ snapshots:
 
   flatted@3.4.2: {}
 
-  formsnap@2.0.1(svelte@5.55.7)(sveltekit-superforms@2.30.1(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.0.0(svelte@5.55.7)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(svelte@5.55.7)(typescript@6.0.2)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(@types/json-schema@7.0.15)(svelte@5.55.7)(typescript@6.0.2)):
+  formsnap@2.1.0(svelte@5.55.7)(sveltekit-superforms@2.30.1(@sveltejs/kit@3.1.0(@sveltejs/vite-plugin-svelte@7.0.0(svelte@5.55.7)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(svelte@5.55.7)(typescript@6.0.2)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)))(@types/json-schema@7.0.15)(svelte@5.55.7)(typescript@6.0.2)):
     dependencies:
       svelte: 5.55.7
       svelte-toolbelt: 0.5.0(svelte@5.55.7)
